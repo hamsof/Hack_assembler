@@ -46,13 +46,13 @@ public:
         //cout << dest;
 
         // setting opcode a
-        //for (int i = 0; i < comp.length(); i++)
-        //{
-        if (comp[0] == 'M')
+        for (int i = 0; i < comp.length(); i++)
         {
-            check = true;
+            if (comp[i] == 'M')
+            {
+                check = true;
+            }
         }
-        //}
 
         if (check)
             temp.push_back('1');
@@ -333,14 +333,12 @@ int main()
     string a;
     int var = 16;
     bool check = false;
-    map<string, string> Map_for_label;
-    map<string, string> Map_for_variable;
-    //Map_for_predefined.insert(make_pair())
+
+    map<string, string> Map_for_var;
     map<string, string> Map_for_predefined;
 
     map<string, string>::iterator x;
     map<string, string>::iterator y;
-    map<string, string>::iterator f;
 
     Map_for_predefined.insert(make_pair("@SCREEN", "@16384"));
     Map_for_predefined.insert(make_pair("@KBD", "@24576"));
@@ -415,7 +413,7 @@ int main()
                 z = from_label_value(line);
             }
             //cout << w << " " <<
-            Map_for_label.insert(make_pair(w, z));
+            Map_for_predefined.insert(make_pair(w, z));
             w = "";
         }
     }
@@ -439,57 +437,36 @@ int main()
             y = Map_for_predefined.find(s);
             if (y == Map_for_predefined.end())
             {
+                x = Map_for_var.find(s);
+                if (x == Map_for_var.end())
+                {
+                    //cout << str << "\n";
+                    t.push_back('@');
+                    t.append(to_string(var));
+                    //cout << var_1 << "\n";
+                    Map_for_var.insert(make_pair(s, t));
+                    s = t;
+                    var++;
+                    t = "";
+                }
+                else
+                {
+                    s = Map_for_var.find(s)->second;
+                }
+                file_7 << s << "\n";
             }
             else
             {
                 s = Map_for_predefined.find(s)->second;
+                file_7 << s << "\n";
             }
-
-            if (s[1] == '0' or s[1] == '1' or s[1] == '2' or s[1] == '3' or s[1] == '4' or s[1] == '5' or s[1] == '6' or s[1] == '7' or s[1] == '8' or s[1] == '9')
-            {
-            }
-            else
-            {
-                //for varibales
-                x = Map_for_label.find(s);
-                if (x == Map_for_label.end())
-                {
-                    //cout << s << "\n";
-                    y = Map_for_variable.find(s);
-                    if (y == Map_for_variable.end())
-                    {
-                        t.push_back('@');
-                        a = to_string(var);
-                        t.append(a);
-                        Map_for_variable.insert(make_pair(s, t));
-                        //cout << t;
-                        s = t;
-                        var++;
-                        t = "";
-                        //cout << s << "\n";
-                    }
-                    else
-                    {
-                        s = Map_for_variable.find(s)->second;
-                        //cout << s << "\n";
-                    }
-                }
-                else
-                {
-                    s = Map_for_label.find(s)->second;
-                    //cout << s << "\n";
-                }
-            }
-            //cout << s << "\n";
-            file_7 << s << "\n";
         }
         else
         {
-            //cout << s << "\n";
+
             file_7 << s << "\n";
         }
     }
-
     file_5.close();
     file_7.close();
 
@@ -527,6 +504,8 @@ int main()
     file_8.close();
     file_9.close();
     cout << "\n\n............Thankyou for using us.....................\n\n";
+    remove("if_task_2.txt");
+    remove("for_task_2.txt");
 
     return 0;
 }
