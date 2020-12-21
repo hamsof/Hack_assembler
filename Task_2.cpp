@@ -1,3 +1,10 @@
+
+
+//hafiz abdulmanan
+//hamsof
+
+// if else statments can be replaced with map check in smarter way
+
 #include <iostream>
 #include <fstream>
 #include <string.h>
